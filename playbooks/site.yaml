@@ -1,0 +1,56 @@
+- name: Configure mugman
+  hosts: mugman
+  become: true
+  roles:
+    - cockpit
+    - dnsmasq
+    - interfaces
+    - libvirt_host
+    - nftables
+    - podman_host
+  tasks:
+    - name: Enable IPv4 forwarding
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: 1
+        sysctl_file: /etc/sysctl.d/10-ip-forward.conf
+    - name: Install bridge-utils
+      ansible.builtin.apt:
+        package: bridge-utils
+    - name: Write network interfaces configuration
+      notify:
+        - Reload interfaces
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /etc/network/interfaces.d
+        owner: root
+        mode: "0644"
+      loop: "{{ query('fileglob', 'mugman/etc/network/interfaces.d/*') }}"
+    - name: Write dnsmasq configuration
+      notify:
+        - Reload dnsmasq
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /etc/dnsmasq.conf.d
+        owner: root
+        mode: "0644"
+      loop: "{{ query('fileglob', 'mugman/etc/dnsmasq.conf.d/*.conf') }}"
+    - name: Write nftables configuration
+      notify:
+        - Reload nftables
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /etc/nftables.conf.d
+        owner: root
+        mode: "0644"
+      loop: "{{ query('fileglob', 'mugman/etc/nftables.conf.d/*.conf') }}"
+    - name: Install lvm2
+      ansible.builtin.apt:
+        package:
+          - lvm2
+    - name: Install Cockpit add-ons
+      notify:
+        - Reload Cockpit
+      ansible.builtin.apt:
+        package:
+          - cockpit-machines
