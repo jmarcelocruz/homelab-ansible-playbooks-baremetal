@@ -1,0 +1,2 @@
+auto enp42s0
+iface enp42s0 inet manual

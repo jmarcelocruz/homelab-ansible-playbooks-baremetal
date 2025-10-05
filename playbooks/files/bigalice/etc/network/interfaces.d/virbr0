@@ -1,0 +1,4 @@
+auto virbr0
+iface virbr0 inet dhcp
+    bridge_ports enp42s0
+    bridge_hw enp42s0
