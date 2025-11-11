@@ -2,30 +2,5 @@
   hosts: bigalice
   become: true
   roles:
-    - cockpit
-    - interfaces
-    - libvirt_host
-    - podman_host
-  tasks:
-    - name: Install bridge-utils
-      ansible.builtin.apt:
-        package: bridge-utils
-    - name: Write network interfaces configuration
-      notify:
-        - Reload interfaces
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: /etc/network/interfaces.d
-        owner: root
-        mode: "0644"
-      loop: "{{ query('fileglob', 'bigalice/etc/network/interfaces.d/*') }}"
-    - name: Install mdadm
-      ansible.builtin.apt:
-        package:
-          - mdadm
-    - name: Install Cockpit add-ons
-      notify:
-        - Reload Cockpit
-      ansible.builtin.apt:
-        package:
-          - cockpit-machines
+    - flathub
+    - workstation
