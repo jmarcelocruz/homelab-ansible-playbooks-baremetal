@@ -25,7 +25,7 @@
         dest: /etc/network/interfaces.d
         owner: root
         mode: "0644"
-      loop: "{{ query('fileglob', 'mugman/etc/network/interfaces.d/*') }}"
+      loop: "{{ query('fileglob', 'host_files/mugman/etc/network/interfaces.d/*') }}"
     - name: Write dnsmasq configuration
       notify:
         - Reload dnsmasq
@@ -34,7 +34,7 @@
         dest: /etc/dnsmasq.conf.d
         owner: root
         mode: "0644"
-      loop: "{{ query('fileglob', 'mugman/etc/dnsmasq.conf.d/*.conf') }}"
+      loop: "{{ query('fileglob', 'host_files/mugman/etc/dnsmasq.conf.d/*.conf') }}"
     - name: Write nftables configuration
       notify:
         - Reload nftables
@@ -43,7 +43,7 @@
         dest: /etc/nftables.conf.d
         owner: root
         mode: "0644"
-      loop: "{{ query('fileglob', 'mugman/etc/nftables.conf.d/*.conf') }}"
+      loop: "{{ query('fileglob', 'host_files/mugman/etc/nftables.conf.d/*.conf') }}"
     - name: Install lvm2
       ansible.builtin.apt:
         package:
