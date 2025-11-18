@@ -2,12 +2,12 @@
   hosts: mugman
   become: true
   roles:
-    - cockpit
-    - dnsmasq
-    - interfaces
-    - libvirt_host
-    - nftables
-    - podman_host
+    - infra/cockpit
+    - infra/dnsmasq
+    - infra/interfaces
+    - infra/libvirt_host
+    - infra/nftables
+    - infra/podman_host
   tasks:
     - name: Enable IPv4 forwarding
       ansible.posix.sysctl:

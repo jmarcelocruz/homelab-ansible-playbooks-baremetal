@@ -2,5 +2,5 @@
   hosts: bigalice
   become: true
   roles:
-    - flathub
-    - workstation
+    - infra/flathub
+    - infra/workstation
