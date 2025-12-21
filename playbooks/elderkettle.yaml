@@ -1,0 +1,6 @@
+- name: Configure bigalice
+  hosts: elderkettle
+  become: true
+  roles:
+    - infra/flathub
+    - infra/workstation
