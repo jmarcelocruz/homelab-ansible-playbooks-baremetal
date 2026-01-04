@@ -8,12 +8,8 @@
     - infra/libvirt_host
     - infra/nftables
     - infra/podman_host
+    - infra/routing
   tasks:
-    - name: Enable IPv4 forwarding
-      ansible.posix.sysctl:
-        name: net.ipv4.ip_forward
-        value: 1
-        sysctl_file: /etc/sysctl.d/10-ip-forward.conf
     - name: Install bridge-utils
       ansible.builtin.apt:
         package: bridge-utils
