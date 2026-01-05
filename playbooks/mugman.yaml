@@ -9,44 +9,34 @@
     - infra/nftables
     - infra/podman_host
     - infra/routing
+  vars:
+    infra_cockpit_disallowed_users:
+      - root
+    infra_cockpit_extra_addons:
+      - cockpit-machines
+    infra_dnsmasq_default_configuration:
+      - |
+        interface = br0
+        dhcp-range = br0,10.10.1.0,10.10.255.254,24h
+    infra_interfaces_extra_interfaces:
+      - |
+        auto enp2s0
+        iface enp2s0 inet dhcp
+      - |
+        auto enp3s0
+        iface enp3s0 inet manual
+      - |
+        auto br0
+        iface br0 inet static
+            address 10.10.0.1
+            netmask 255.255.0.0
+            broadcast 10.10.255.255
+            bridge_ports enp3s0
+            bridge_hw enp3s0
+    infra_nftables_nat_snat_rules:
+      - oifname enp2s0 masquerade
   tasks:
-    - name: Install bridge-utils
-      ansible.builtin.apt:
-        package: bridge-utils
-    - name: Write network interfaces configuration
-      notify:
-        - Reload interfaces
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: /etc/network/interfaces.d
-        owner: root
-        mode: "0644"
-      loop: "{{ query('fileglob', 'host_files/mugman/etc/network/interfaces.d/*') }}"
-    - name: Write dnsmasq configuration
-      notify:
-        - Reload dnsmasq
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: /etc/dnsmasq.conf.d
-        owner: root
-        mode: "0644"
-      loop: "{{ query('fileglob', 'host_files/mugman/etc/dnsmasq.conf.d/*.conf') }}"
-    - name: Write nftables configuration
-      notify:
-        - Reload nftables
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: /etc/nftables.conf.d
-        owner: root
-        mode: "0644"
-      loop: "{{ query('fileglob', 'host_files/mugman/etc/nftables.conf.d/*.conf') }}"
     - name: Install lvm2
       ansible.builtin.apt:
         package:
           - lvm2
-    - name: Install Cockpit add-ons
-      notify:
-        - Reload Cockpit
-      ansible.builtin.apt:
-        package:
-          - cockpit-machines

@@ -1,7 +1,0 @@
-auto virbr0
-iface virbr0 inet static
-    bridge_ports enp3s0
-    bridge_hw enp3s0
-    address 172.16.0.1
-    netmask 255.255.0.0
-    broadcast 172.16.255.255
