@@ -10,8 +10,6 @@
     - infra/podman_host
     - infra/routing
   vars:
-    infra_cockpit_disallowed_users:
-      - root
     infra_cockpit_extra_addons:
       - cockpit-machines
     infra_dnsmasq_default_configuration:
