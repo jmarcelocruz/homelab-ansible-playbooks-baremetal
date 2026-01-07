@@ -33,8 +33,3 @@
             bridge_hw enp3s0
     infra_nftables_nat_snat_rules:
       - oifname enp2s0 masquerade
-  tasks:
-    - name: Install lvm2
-      ansible.builtin.apt:
-        package:
-          - lvm2
