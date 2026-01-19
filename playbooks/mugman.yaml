@@ -14,6 +14,10 @@
       - cockpit-machines
     infra_dnsmasq_default_configuration:
       - |
+        no-resolv
+        server = 1.1.1.1
+        server = 1.0.0.1
+      - |
         interface = br0
         dhcp-range = br0,10.10.1.0,10.10.255.254,24h
     infra_interfaces_extra_interfaces:
