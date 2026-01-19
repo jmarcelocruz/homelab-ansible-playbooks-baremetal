@@ -9,6 +9,7 @@
     - infra/nftables
     - infra/podman_host
     - infra/routing
+    - services/nfs4_server
   vars:
     infra_cockpit_extra_addons:
       - cockpit-machines
@@ -37,3 +38,9 @@
             bridge_hw enp3s0
     infra_nftables_nat_snat_rules:
       - oifname enp2s0 masquerade
+    services_nfs4_server_exports:
+      - /srv/disk-by-uuid-43189a05-5113-4bdb-a31a-5d63a4010bd2            10.10.0.0/16(rw,all_squash,anonuid=65534,anongid=100,fsid=root)
+      - /srv/disk-by-uuid-43189a05-5113-4bdb-a31a-5d63a4010bd2/documents  10.10.0.0/16(rw,async,all_squash,anonuid=65534,anongid=100)
+      - /srv/disk-by-uuid-43189a05-5113-4bdb-a31a-5d63a4010bd2/games      10.10.0.0/16(rw,async,all_squash,anonuid=65534,anongid=100)
+      - /srv/disk-by-uuid-43189a05-5113-4bdb-a31a-5d63a4010bd2/isos       10.10.0.0/16(rw,async,all_squash,anonuid=65534,anongid=100)
+      - /srv/disk-by-uuid-43189a05-5113-4bdb-a31a-5d63a4010bd2/media      10.10.0.0/16(rw,async,all_squash,anonuid=65534,anongid=100)
